@@ -120,6 +120,8 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
         }
 
         if let Some(capt) = RE_RLM_FEATURE_VERSION.captures(line) {
+            debug!("rlm.rs:fetch: RE_RLM_FEATURE_VERSION match on '{}'", line);
+
             if capt.len() != 3 {
                 error!(
                     "Regular expression RE_RLM_FEATURE_VERSION returns {} capture groups instead of 4",
@@ -127,8 +129,6 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!("rlm.rs:fetch: RE_RLM_FEATURE_VERSION match on '{}'", line);
 
             feature = capt.get(1).map_or("", |m| m.as_str());
             version = capt.get(2).map_or("", |m| m.as_str());
@@ -144,6 +144,8 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
                 continue;
             }
 
+            debug!("rlm.rs:fetch: RE_RLM_USAGE match on '{}'", line);
+
             if capt.len() != 5 {
                 error!(
                     "Regular expression RE_RLM_USAGE returns {} capture groups instead of 5",
@@ -151,8 +153,6 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!("rlm.rs:fetch: RE_RLM_USAGE match on '{}'", line);
 
             let _total = capt.get(1).map_or("", |m| m.as_str());
             let total: i64 = match _total.parse() {
@@ -391,6 +391,11 @@ fn fetch_checkouts(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error
         }
 
         if let Some(capt) = RE_RLM_CHECKOUTS.captures(line) {
+            debug!(
+                "rlm.rs:fetch_checkouts: RE_RLM_CHECKOUTS match on '{}'",
+                line
+            );
+
             if capt.len() != 4 {
                 error!(
                     "Regular expression RE_RLM_CHECKOUTS returns {} capture groups instead of 4",
@@ -398,11 +403,6 @@ fn fetch_checkouts(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error
                 );
                 continue;
             }
-
-            debug!(
-                "rlm.rs:fetch_checkouts: RE_RLM_CHECKOUTS match on '{}'",
-                line
-            );
 
             let feature = capt.get(1).map_or("", |m| m.as_str());
             let version = capt.get(2).map_or("", |m| m.as_str());
@@ -495,6 +495,8 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
             }
 
             if let Some(capt) = RE_RLM_STATUS.captures(line) {
+                debug!("rlm.rs:fetch_status: RE_RLM_STATUS match on '{}'", line);
+
                 if capt.len() != 3 {
                     error!(
                         "Regular expression RE_RLM_STATUS returns {} capture groups instead of 3",
@@ -503,14 +505,14 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
                     continue;
                 }
 
-                debug!("rlm.rs:fetch_status: RE_RLM_STATUS match on '{}'", line);
-
                 port = capt.get(1).map_or("", |m| m.as_str());
                 let _status = capt.get(2).map_or("", |m| m.as_str());
                 if _status.to_lowercase() == "up" {
                     status = 1;
                 }
             } else if let Some(capt) = RE_RLM_VERSION.captures(line) {
+                debug!("rlm.rs:fetch_status: RE_RLM_VERSION match on '{}'", line);
+
                 if capt.len() != 3 {
                     error!(
                         "Regular expression RE_RLM_VERSION returns {} capture groups instead of 3",
@@ -518,8 +520,6 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
                     );
                     continue;
                 }
-
-                debug!("rlm.rs:fetch_status: RE_RLM_VERSION match on '{}'", line);
 
                 version = capt.get(1).map_or("", |m| m.as_str());
             } else {

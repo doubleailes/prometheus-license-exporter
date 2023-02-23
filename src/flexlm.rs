@@ -127,6 +127,8 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         }
 
         if let Some(capt) = RE_LMSTAT_USAGE.captures(line) {
+            debug!("flexlm.rs:fetch: RE_LMSTAT_USAGE match on '{}'", line);
+
             if capt.len() != 4 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_USAGE returns {} capture groups instead of 4 for RE_LMSTAT_USAGE",
@@ -134,8 +136,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!("flexlm.rs:fetch: RE_LMSTAT_USAGE match on '{}'", line);
 
             feature = capt.get(1).map_or("", |m| m.as_str());
             let _total = capt.get(2).map_or("", |m| m.as_str());
@@ -178,6 +178,11 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 .with_label_values(&[&lic.name, feature])
                 .set(used);
         } else if let Some(capt) = RE_LMSTAT_USERS_SINGLE_LICENSE.captures(line) {
+            debug!(
+                "flexlm.rs:fetch: RE_LMSTAT_USERS_SINGLE_LICENSE match on '{}'",
+                line
+            );
+
             if capt.len() != 3 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_USERS_SINGLE_LICENSE returns {} capture groups instead of 3 RE_LMSTAT_USERS_SINGLE_LICENSE",
@@ -185,11 +190,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch: RE_LMSTAT_USERS_SINGLE_LICENSE match on '{}'",
-                line
-            );
 
             let user = capt.get(1).map_or("", |m| m.as_str());
             let version = capt.get(2).map_or("", |m| m.as_str());
@@ -202,6 +202,11 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 .or_insert_with(HashMap::<String, i64>::new);
             *usr.entry(version.to_string()).or_insert(0) += 1;
         } else if let Some(capt) = RE_LMSTAT_USERS_MULTI_LICENSE.captures(line) {
+            debug!(
+                "flexlm.rs:fetch: RE_LMSTAT_USERS_MULTI_LICENSE match on '{}'",
+                line
+            );
+
             if capt.len() != 4 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_USERS_MULTI_LICENSE returns {} capture groups instead of 3 RE_LMSTAT_USERS_MULTI_LICENSE",
@@ -209,11 +214,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch: RE_LMSTAT_USERS_MULTI_LICENSE match on '{}'",
-                line
-            );
 
             let user = capt.get(1).map_or("", |m| m.as_str());
             let version = capt.get(2).map_or("", |m| m.as_str());
@@ -234,6 +234,11 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 .or_insert_with(HashMap::<String, i64>::new);
             *usr.entry(version.to_string()).or_insert(0) += count;
         } else if let Some(capt) = RE_LMSTAT_LICENSE_SERVER_STATUS.captures(line) {
+            debug!(
+                "flexlm.rs:fetch: RE_LMSTAT_LICENSE_SERVER_STATUS match on '{}'",
+                line
+            );
+
             if capt.len() != 2 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_LICENSE_SERVER_STATUS returns {} capture groups instead of 2 for RE_LMSTAT_LICENSE_SERVER_STATUS",
@@ -241,11 +246,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch: RE_LMSTAT_LICENSE_SERVER_STATUS match on '{}'",
-                line
-            );
 
             let status_line = capt.get(1).map_or("", |m| m.as_str());
             license_server = status_line.to_string();
@@ -258,6 +258,11 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 server_version.insert(srv_port[1].to_string(), String::new());
             }
         } else if let Some(capt) = RE_LMSTAT_SERVER_STATUS.captures(line) {
+            debug!(
+                "flexlm.rs:fetch: RE_LMSTAT_SERVER_STATUS match on '{}'",
+                line
+            );
+
             if capt.len() != 5 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_SERVER_STATUS returns {} capture groups instead of 5 for RE_LMSTAT_SERVER_STATUS",
@@ -265,11 +270,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch: RE_LMSTAT_SERVER_STATUS match on '{}'",
-                line
-            );
 
             let server = capt.get(1).map_or("", |m| m.as_str());
             let status = capt.get(2).map_or("", |m| m.as_str());
@@ -283,6 +283,11 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
             }
             server_version.insert(server.to_string(), version.to_string());
         } else if let Some(capt) = RE_LMSTAT_VENDOR_STATUS.captures(line) {
+            debug!(
+                "flexlm.rs:fetch: RE_LMSTAT_VENDOR_STATUS match on '{}'",
+                line
+            );
+
             if capt.len() != 4 {
                 error!(
                     "flexlm.rs:fetch: Regular expression RE_LMSTAT_VENDOR_STATUS returns {} capture groups instead of 4 for RE_LMSTAT_VENDOR_STATUS",
@@ -290,11 +295,6 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch: RE_LMSTAT_VENDOR_STATUS match on '{}'",
-                line
-            );
 
             let vendor = capt.get(1).map_or("", |m| m.as_str());
             let _status = capt.get(2).map_or("", |m| m.as_str());
@@ -428,6 +428,11 @@ fn fetch_expiration(
     let stdout = String::from_utf8(cmd.stdout)?;
     for line in stdout.lines() {
         if let Some(capt) = RE_LMSTAT_EXPIRATION.captures(line) {
+            debug!(
+                "flexlm.rs:fetch_expiration: RE_LMSTAT_EXPIRATION match on '{}'",
+                line
+            );
+
             if capt.len() != 6 {
                 error!(
                     "flexlm.rs:fetch_expiration: Regular expression RE_LMSTAT_EXPIRATION returns {} capture groups instead of 6 for RE_LMSTAT_EXPIRATION",
@@ -435,11 +440,6 @@ fn fetch_expiration(
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch_expiration: RE_LMSTAT_EXPIRATION match on '{}'",
-                line
-            );
 
             let feature = capt.get(1).map_or("", |m| m.as_str());
             let version = capt.get(2).map_or("", |m| m.as_str());
@@ -497,6 +497,11 @@ fn fetch_expiration(
                 vendor: vendor.to_string(),
             });
         } else if let Some(capt) = RE_LMSTAT_ALTERNATIVE_EXPIRATION.captures(line) {
+            debug!(
+                "flexlm.rs:fetch_expiration: RE_LMSTAT_ALTERNATIVE_EXPIRATION match on '{}'",
+                line
+            );
+
             if capt.len() != 6 {
                 error!(
                     "flexlm.rs:fetch_expiration: Regular expression RE_LMSTAT_ALTERNATIVE_EXPIRATION returns {} capture groups instead of 6 for RE_LMSTAT_ALTERNATIVE_EXPIRATION",
@@ -504,11 +509,6 @@ fn fetch_expiration(
                 );
                 continue;
             }
-
-            debug!(
-                "flexlm.rs:fetch_expiration: RE_LMSTAT_ALTERNATIVE_EXPIRATION match on '{}'",
-                line
-            );
 
             let feature = capt.get(1).map_or("", |m| m.as_str());
             let version = capt.get(2).map_or("", |m| m.as_str());

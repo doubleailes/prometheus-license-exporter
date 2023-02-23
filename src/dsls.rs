@@ -133,6 +133,8 @@ pub fn fetch(lic: &config::Dsls, dslicsrv: &str) -> Result<(), Box<dyn Error>> {
         let stdout = String::from_utf8(cmd.stdout)?;
         for line in stdout.lines() {
             if let Some(capt) = RE_DSLS_VERSION.captures(line) {
+                debug!("dsls.rs:fetch: RE_DSLS_VERSION match on '{}'", line);
+
                 if capt.len() != 2 {
                     error!(
                         "dsls.rs:fetch: Regular expression RE_DSLS_VERSION returns {} capture groups instead of 2 for RE_DSLS_VERSION",
@@ -140,11 +142,11 @@ pub fn fetch(lic: &config::Dsls, dslicsrv: &str) -> Result<(), Box<dyn Error>> {
                     );
                     continue;
                 }
-
-                debug!("dsls.rs:fetch: RE_DSLS_VERSION match on '{}'", line);
                 let version = capt.get(1).map_or("", |m| m.as_str());
                 server_version.insert(server.clone(), version.to_string());
             } else if let Some(capt) = RE_DSLS_STATUS.captures(line) {
+                debug!("dsls.rs:fetch: RE_DSLS_STATUS match on '{}'", line);
+
                 if capt.len() != 2 {
                     error!(
                         "dsls.rs:fetch: Regular expression RE_DSLS_STATUS returns {} capture groups instead of 2 for RE_DSLS_STATUS",
@@ -152,8 +154,6 @@ pub fn fetch(lic: &config::Dsls, dslicsrv: &str) -> Result<(), Box<dyn Error>> {
                     );
                     continue;
                 }
-
-                debug!("dsls.rs:fetch: RE_DSLS_STATUS match on '{}'", line);
                 let _status = capt.get(1).map_or("", |m| m.as_str());
                 let status: i64 = match _status {
                     "yes" => 1,

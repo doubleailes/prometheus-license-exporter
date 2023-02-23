@@ -133,6 +133,11 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
         }
 
         if let Some(capt) = RE_LICMAN20_PRODUCT_KEY.captures(line) {
+            debug!(
+                "licman20.rs:fetch: RE_LICMAN20_PRODUCT_KEY match on {}",
+                line
+            );
+
             if capt.len() != 2 {
                 error!(
                     "licman20.rs:fetch: Regular expression RE_LICMAN20_PRODUCT_KEY returns {} capture groups instead of 2 for RE_LICMAN20_PRODUCT_KEY",
@@ -140,11 +145,6 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 );
                 continue;
             }
-            debug!(
-                "licman20.rs:fetch: RE_LICMAN20_PRODUCT_KEY match on {}",
-                line
-            );
-
             // Flush collected data
             if !product_key.is_empty() {
                 licenses.push(Licman20LicenseData {
@@ -179,6 +179,7 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
 
             product_key = capt.get(1).map_or("", |m| m.as_str());
         } else if let Some(capt) = RE_LICMAN20_FEATURE.captures(line) {
+            debug!("licman20.rs:fetch: RE_LICMAN20_FEATURE match on {}", line);
             if capt.len() != 2 {
                 error!(
                     "licman20.rs:fetch: Regular expression RE_LICMAN20_FEATURE returns {} capture groups instead of 2 for RE_LICMAN20_FEATURE",
@@ -186,9 +187,12 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 );
                 continue;
             }
-            debug!("licman20.rs:fetch: RE_LICMAN20_FEATURE match on {}", line);
             feature = capt.get(1).map_or("", |m| m.as_str());
         } else if let Some(capt) = RE_LICMAN20_TOTAL_LICENSES.captures(line) {
+            debug!(
+                "licman20.rs:fetch: RE_LICMAN20_TOTAL_LICENSES match on {}",
+                line
+            );
             if capt.len() != 2 {
                 error!(
                     "licman20.rs:fetch: Regular expression RE_LICMAN20_TOTAL_LICENSES returns {} capture groups instead of 2 for RE_LICMAN20_TOTAL_LICENSES",
@@ -196,10 +200,6 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 );
                 continue;
             }
-            debug!(
-                "licman20.rs:fetch: RE_LICMAN20_TOTAL_LICENSES match on {}",
-                line
-            );
             let _total = capt.get(1).map_or("", |m| m.as_str());
             total = match _total.parse() {
                 Ok(v) => v,
@@ -212,6 +212,10 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 }
             };
         } else if let Some(capt) = RE_LICMAN20_USED_LICENSES.captures(line) {
+            debug!(
+                "licman20.rs:fetch: RE_LICMAN20_USED_LICENSES match on {}",
+                line
+            );
             if capt.len() != 2 {
                 error!(
                     "licman20.rs:fetch: Regular expression RE_LICMAN20_USED_LICENSES returns {} capture groups instead of 2 for RE_LICMAN20_USED_LICENSES",
@@ -219,10 +223,6 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 );
                 continue;
             }
-            debug!(
-                "licman20.rs:fetch: RE_LICMAN20_USED_LICENSES match on {}",
-                line
-            );
             let _used = capt.get(1).map_or("", |m| m.as_str());
             used = match _used.parse() {
                 Ok(v) => v,
@@ -232,6 +232,7 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 }
             };
         } else if let Some(capt) = RE_LICMAN20_END_DATE.captures(line) {
+            debug!("licman20.rs:fetch: RE_LICMAN20_END_DATE match on {}", line);
             if capt.len() != 2 {
                 error!(
                     "licman20.rs:fetch: Regular expression RE_LICMAN20_END_DATE returns {} capture groups instead of 2 RE_LICMAN20_END_DATE",
@@ -239,7 +240,6 @@ pub fn fetch(lic: &config::Licman20, licman20_appl: &str) -> Result<(), Box<dyn 
                 );
                 continue;
             }
-            debug!("licman20.rs:fetch: RE_LICMAN20_END_DATE match on {}", line);
             let end_date = capt.get(1).map_or("", |m| m.as_str());
             expiration = match NaiveDateTime::parse_from_str(
                 &format!("{} 00:00:00", end_date),
@@ -448,6 +448,11 @@ fn fetch_checkouts(
         }
 
         if let Some(capt) = RE_LICMAN20_CHECKOUT.captures(line) {
+            debug!(
+                "licman20.rs:fetch_checkouts: RE_LICMAN20_CHECKOUT match on {}",
+                line
+            );
+
             if capt.len() != 3 {
                 error!(
                     "licman20.rs:fetch_checkouts: Regular expression RE_LICMAN20_CHECKOUT returns {} capture groups instead of 3 for RE_LICMAN20_CHECKOUT",
@@ -455,11 +460,6 @@ fn fetch_checkouts(
                 );
                 continue;
             }
-            debug!(
-                "licman20.rs:fetch_checkouts: RE_LICMAN20_CHECKOUT match on {}",
-                line
-            );
-
             let user = capt.get(1).map_or("", |m| m.as_str());
             let product_key = capt.get(2).map_or("", |m| m.as_str());
 
