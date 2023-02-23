@@ -135,7 +135,7 @@ pub fn fetch(lic: &config::Dsls, dslicsrv: &str) -> Result<(), Box<dyn Error>> {
             if let Some(capt) = RE_DSLS_VERSION.captures(line) {
                 if capt.len() != 2 {
                     error!(
-                        "dsls.rs:fetch: Regular expression returns {} capture groups instead of 2 for RE_DSLS_VERSION",
+                        "dsls.rs:fetch: Regular expression RE_DSLS_VERSION returns {} capture groups instead of 2 for RE_DSLS_VERSION",
                         capt.len()
                     );
                     continue;
@@ -147,7 +147,7 @@ pub fn fetch(lic: &config::Dsls, dslicsrv: &str) -> Result<(), Box<dyn Error>> {
             } else if let Some(capt) = RE_DSLS_STATUS.captures(line) {
                 if capt.len() != 2 {
                     error!(
-                        "dsls.rs:fetch: Regular expression returns {} capture groups instead of 2 for RE_DSLS_STATUS",
+                        "dsls.rs:fetch: Regular expression RE_DSLS_STATUS returns {} capture groups instead of 2 for RE_DSLS_STATUS",
                         capt.len()
                     );
                     continue;

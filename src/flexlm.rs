@@ -129,7 +129,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         if let Some(capt) = RE_LMSTAT_USAGE.captures(line) {
             if capt.len() != 4 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 4 for RE_LMSTAT_USAGE",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_USAGE returns {} capture groups instead of 4 for RE_LMSTAT_USAGE",
                     capt.len()
                 );
                 continue;
@@ -180,7 +180,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         } else if let Some(capt) = RE_LMSTAT_USERS_SINGLE_LICENSE.captures(line) {
             if capt.len() != 3 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 3 RE_LMSTAT_USERS_SINGLE_LICENSE",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_USERS_SINGLE_LICENSE returns {} capture groups instead of 3 RE_LMSTAT_USERS_SINGLE_LICENSE",
                     capt.len(),
                 );
                 continue;
@@ -204,7 +204,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         } else if let Some(capt) = RE_LMSTAT_USERS_MULTI_LICENSE.captures(line) {
             if capt.len() != 4 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 3 RE_LMSTAT_USERS_MULTI_LICENSE",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_USERS_MULTI_LICENSE returns {} capture groups instead of 3 RE_LMSTAT_USERS_MULTI_LICENSE",
                     capt.len(),
                 );
                 continue;
@@ -236,7 +236,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         } else if let Some(capt) = RE_LMSTAT_LICENSE_SERVER_STATUS.captures(line) {
             if capt.len() != 2 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 2 for RE_LMSTAT_LICENSE_SERVER_STATUS",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_LICENSE_SERVER_STATUS returns {} capture groups instead of 2 for RE_LMSTAT_LICENSE_SERVER_STATUS",
                     capt.len()
                 );
                 continue;
@@ -260,7 +260,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         } else if let Some(capt) = RE_LMSTAT_SERVER_STATUS.captures(line) {
             if capt.len() != 5 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 5 for RE_LMSTAT_SERVER_STATUS",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_SERVER_STATUS returns {} capture groups instead of 5 for RE_LMSTAT_SERVER_STATUS",
                     capt.len()
                 );
                 continue;
@@ -285,7 +285,7 @@ pub fn fetch(lic: &config::FlexLM, lmutil: &str) -> Result<(), Box<dyn Error>> {
         } else if let Some(capt) = RE_LMSTAT_VENDOR_STATUS.captures(line) {
             if capt.len() != 4 {
                 error!(
-                    "flexlm.rs:fetch: Regular expression returns {} capture groups instead of 4 for RE_LMSTAT_VENDOR_STATUS",
+                    "flexlm.rs:fetch: Regular expression RE_LMSTAT_VENDOR_STATUS returns {} capture groups instead of 4 for RE_LMSTAT_VENDOR_STATUS",
                     capt.len()
                 );
                 continue;
@@ -430,7 +430,7 @@ fn fetch_expiration(
         if let Some(capt) = RE_LMSTAT_EXPIRATION.captures(line) {
             if capt.len() != 6 {
                 error!(
-                    "flexlm.rs:fetch_expiration: Regular expression returns {} capture groups instead of 6 for RE_LMSTAT_EXPIRATION",
+                    "flexlm.rs:fetch_expiration: Regular expression RE_LMSTAT_EXPIRATION returns {} capture groups instead of 6 for RE_LMSTAT_EXPIRATION",
                     capt.len()
                 );
                 continue;
@@ -499,7 +499,7 @@ fn fetch_expiration(
         } else if let Some(capt) = RE_LMSTAT_ALTERNATIVE_EXPIRATION.captures(line) {
             if capt.len() != 6 {
                 error!(
-                    "flexlm.rs:fetch_expiration: Regular expression returns {} capture groups instead of 6 for RE_LMSTAT_ALTERNATIVE_EXPIRATION",
+                    "flexlm.rs:fetch_expiration: Regular expression RE_LMSTAT_ALTERNATIVE_EXPIRATION returns {} capture groups instead of 6 for RE_LMSTAT_ALTERNATIVE_EXPIRATION",
                     capt.len()
                 );
                 continue;

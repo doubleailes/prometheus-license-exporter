@@ -122,7 +122,7 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
         if let Some(capt) = RE_RLM_FEATURE_VERSION.captures(line) {
             if capt.len() != 3 {
                 error!(
-                    "Regular expression returns {} capture groups instead of 4",
+                    "Regular expression RE_RLM_FEATURE_VERSION returns {} capture groups instead of 4",
                     capt.len()
                 );
                 continue;
@@ -146,7 +146,7 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
 
             if capt.len() != 5 {
                 error!(
-                    "Regular expression returns {} capture groups instead of 5",
+                    "Regular expression RE_RLM_USAGE returns {} capture groups instead of 5",
                     capt.len()
                 );
                 continue;
@@ -393,14 +393,14 @@ fn fetch_checkouts(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error
         if let Some(capt) = RE_RLM_CHECKOUTS.captures(line) {
             if capt.len() != 4 {
                 error!(
-                    "Regular expression returns {} capture groups instead of 4",
+                    "Regular expression RE_RLM_CHECKOUTS returns {} capture groups instead of 4",
                     capt.len(),
                 );
                 continue;
             }
 
             debug!(
-                "rlm.rs:fetch_checkouts: RE_RLM_FEATURE_VERSION match on '{}'",
+                "rlm.rs:fetch_checkouts: RE_RLM_CHECKOUTS match on '{}'",
                 line
             );
 
@@ -497,7 +497,7 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
             if let Some(capt) = RE_RLM_STATUS.captures(line) {
                 if capt.len() != 3 {
                     error!(
-                        "Regular expression returns {} capture groups instead of 3",
+                        "Regular expression RE_RLM_STATUS returns {} capture groups instead of 3",
                         capt.len(),
                     );
                     continue;
@@ -513,7 +513,7 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
             } else if let Some(capt) = RE_RLM_VERSION.captures(line) {
                 if capt.len() != 3 {
                     error!(
-                        "Regular expression returns {} capture groups instead of 3",
+                        "Regular expression RE_RLM_VERSION returns {} capture groups instead of 3",
                         capt.len(),
                     );
                     continue;
