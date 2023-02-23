@@ -508,7 +508,7 @@ fn massage(b0rken: String) -> String {
     // HASP data is in JSON format but it includes C-style  comments (/* ... */) and it lacks
     // the JSON notation for an array. Remove line breaks to make it trivial to construct a regexp
     // for its removal.
-    let massaged = b0rken.replace('\r', "").replace('\n', "");
+    let massaged = b0rken.replace(['\r', '\n'], "");
     format!("[ {} ]", RE_C_STYLE_COMMENT.replace_all(&massaged, ""))
 }
 
