@@ -513,9 +513,9 @@ fn fetch_status(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> 
             } else if let Some(capt) = RE_RLM_VERSION.captures(line) {
                 debug!("rlm.rs:fetch_status: RE_RLM_VERSION match on '{}'", line);
 
-                if capt.len() != 3 {
+                if capt.len() != 2 {
                     error!(
-                        "Regular expression RE_RLM_VERSION returns {} capture groups instead of 3",
+                        "Regular expression RE_RLM_VERSION returns {} capture groups instead of 2",
                         capt.len(),
                     );
                     continue;
