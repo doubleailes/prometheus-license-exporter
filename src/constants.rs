@@ -13,7 +13,7 @@ pub const DEFAULT_LICMAN20_APPL: &str = "licman20_appl";
 pub const DEFAULT_HASP_PORT: &str = "1947";
 pub const DEFAULT_METRICS_PATH: &str = "/metrics";
 
-pub const ROOT_HTML: &str = "<html>\n<head><title>License exporter</title></head>\n<body>\n<h1>License exporter</h1>\n<p><a href=\"/metric\">Metrics</a></p>\n</body>\n</html>\n";
+pub const ROOT_HTML: &str = "<html>\n<head><title>License exporter</title></head>\n<body>\n<h1>License exporter</h1>\n<p><a href=\"/metrics\">Metrics</a></p>\n</body>\n</html>\n";
 
 pub const REPLY_METHOD_NOT_ALLOWED: &str = "Method not allowed";
 pub const REPLY_NOT_FOUND: &str = "Not found";
