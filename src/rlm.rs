@@ -16,12 +16,12 @@ use std::process::Command;
 lazy_static! {
     pub static ref RLM_FEATURES_TOTAL: IntGaugeVec = IntGaugeVec::new(
         Opts::new("rlm_feature_issued", "Total number of issued licenses"),
-        &["app", "name", "version"],
+        &["app", "name", "version", "index"],
     )
     .unwrap();
     pub static ref RLM_FEATURES_USED: IntGaugeVec = IntGaugeVec::new(
         Opts::new("rlm_feature_used", "Number of used licenses"),
-        &["app", "name", "version"],
+        &["app", "name", "version", "index"],
     )
     .unwrap();
     pub static ref RLM_FEATURES_USER: IntGaugeVec = IntGaugeVec::new(
@@ -114,6 +114,7 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
 
     let mut feature: &str = "";
     let mut version: &str = "";
+    let mut token: i64 = 0;
     for line in stdout.lines() {
         if line.is_empty() {
             continue;
@@ -240,23 +241,24 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
             );
 
             debug!(
-                "rlm.rs:fetch: Setting rlm_feature_issued {} {} {} -> {}",
-                lic.name, feature, version, total
+                "rlm.rs:fetch: Setting rlm_feature_issued {} {} {} {} -> {}",
+                lic.name, feature, version, &token.to_string(), total
             );
             RLM_FEATURES_TOTAL
-                .with_label_values(&[&lic.name, feature, version])
+                .with_label_values(&[&lic.name, feature, version, &token.to_string()])
                 .set(total);
 
             debug!(
-                "rlm.rs:fetch: Setting rlm_feature_used {} {} {} -> {}",
-                lic.name, feature, version, used
+                "rlm.rs:fetch: Setting rlm_feature_used {} {} {} {} -> {}",
+                lic.name, feature, version, &token.to_string(), used
             );
             RLM_FEATURES_USED
-                .with_label_values(&[&lic.name, feature, version])
+                .with_label_values(&[&lic.name, feature, version, &token.to_string()])
                 .set(used);
         } else {
             debug!("rlm.rs:fetch: No regexp matches '{}'", line);
         }
+        token += 1;
     }
 
     if let Some(report_users) = lic.export_user {
