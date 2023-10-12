@@ -183,20 +183,7 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
             };
 
             let _expiration = capt.get(4).map_or("", |m| m.as_str());
-            let expiration: f64 = if _expiration == "permanent" {
-                f64::INFINITY
-            } else {
-                match NaiveDateTime::parse_from_str(
-                    &format!("{} 00:00:00", _expiration),
-                    "%d-%b-%Y %H:%M:%S",
-                ) {
-                    Ok(v) => v.timestamp() as f64,
-                    Err(e) => {
-                        error!("Can't parse {} as date and time: {}", _expiration, e);
-                        continue;
-                    }
-                }
-            };
+            let expiration: f64 = parse_expiration(_expiration)?;
 
             expiration_dates.push(expiration);
             expiring.push(RlmLicenseData {
@@ -242,14 +229,22 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
 
             debug!(
                 "rlm.rs:fetch: Setting rlm_feature_issued {} {} {} {} -> {}",
-                lic.name, feature, version, &token.to_string(), total
+                lic.name,
+                feature,
+                version,
+                &token.to_string(),
+                total
             );
             RLM_FEATURES_TOTAL
                 .with_label_values(&[&lic.name, feature, version, &token.to_string()])
                 .set(total + reserved);
             debug!(
                 "rlm.rs:fetch: Setting rlm_feature_used {} {} {} {} -> {}",
-                lic.name, feature, version, &token.to_string(), used
+                lic.name,
+                feature,
+                version,
+                &token.to_string(),
+                used
             );
             RLM_FEATURES_USED
                 .with_label_values(&[&lic.name, feature, version, &token.to_string()])
@@ -342,6 +337,16 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
     }
 
     Ok(())
+}
+
+fn parse_expiration(expiration: &str) -> Result<f64, Box<dyn Error>> {
+    if expiration == "permanent" {
+        Ok(f64::INFINITY)
+    } else {
+        let datetime_str = format!("{} 00:00:00", expiration);
+        let datetime = NaiveDateTime::parse_from_str(&datetime_str, "%d-%b-%Y %H:%M:%S")?;
+        Ok(datetime.timestamp() as f64)
+    }
 }
 
 fn fetch_checkouts(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
