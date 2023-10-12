@@ -246,8 +246,7 @@ pub fn fetch(lic: &config::Rlm, rlmutil: &str) -> Result<(), Box<dyn Error>> {
             );
             RLM_FEATURES_TOTAL
                 .with_label_values(&[&lic.name, feature, version, &token.to_string()])
-                .set(total);
-
+                .set(total + reserved);
             debug!(
                 "rlm.rs:fetch: Setting rlm_feature_used {} {} {} {} -> {}",
                 lic.name, feature, version, &token.to_string(), used
